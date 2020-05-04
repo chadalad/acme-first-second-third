@@ -31,12 +31,9 @@ const createHeader = () => {
 }
 
 // original
-const createButtons = (user, slot) => {
+const createButtons = (users, slot) => {
     // if slot matches first slot, disable shift left
     // if slot matches last slot, disable shift right
-
-    const createClickHandler = '';
-    //check to see if this is for the first, second, third, deactivate if at end
 
     const buttonContainer = createNode('div');
 
@@ -44,11 +41,50 @@ const createButtons = (user, slot) => {
     shiftLeft.innerText = '<';
     shiftLeft.classList.add('button');
     shiftLeft.classList.add('active');
+    if (slot === slots[0]) {
+        shiftLeft.setAttribute('disabled', 'disabled');
+        shiftLeft.classList.remove('active');
+    }
 
     const shiftRight = createNode('button');
     shiftRight.innerText = '>';
     shiftRight.classList.add('button');
     shiftRight.classList.add('active');
+    if (slot === slots[slots.length - 1]) {
+        shiftRight.setAttribute('disabled', 'disabled');
+        shiftRight.classList.remove('active');
+    }
+
+    // determine which users have the slot, deal with accordingly:
+    // use findIndex(slot) to determine the current slot, set slot to -- or ++
+    const createClickHandler = (users, slot, direction) => {
+        return (ev) => {
+            ev.stopPropagation();
+
+            users.forEach((user) => {
+                // make sure user is in current slot
+                if (user.slot === slot) {
+                    //make sure user is selected
+                    if (user.selected) {
+                        let idx = slots.indexOf(user.slot);
+                        //now check direction
+                        if (direction === 'right') {
+                            idx = idx + 1;
+                            user.slot = slots[idx];
+                            render();
+                        } else {
+                            idx = idx - 1;
+                            user.slot = slots[idx];
+                            render();
+                        }
+
+                    }
+                }
+            })
+        }
+    };
+    shiftLeft.addEventListener('click', createClickHandler(users, slot, 'left'));
+    shiftRight.addEventListener('click', createClickHandler(users, slot, 'right'));
 
     buttonContainer.append(shiftLeft);
     buttonContainer.append(shiftRight);
@@ -85,7 +121,7 @@ const createNameCard = (user) => {
     nameCard.classList.add('tile');
     nameCard.innerText = user.name;
     nameCard.addEventListener('click',createClickHandler(user));
-    
+
     if(user.selected) {
         nameCard.classList.add('active');
     } else {
@@ -95,15 +131,15 @@ const createNameCard = (user) => {
     return nameCard;
 }
 
-const createList = (users, text) => {
+const createList = (users, slot) => {
     const list = createNode('div');
     list.classList.add('list');
 
-    const buttons = createButtons();
+    const buttons = createButtons(users, slot);
     list.append(buttons);
 
     const listText = createNode('h2');
-    listText.innerText = text.toUpperCase();
+    listText.innerText = slot.toUpperCase();
     list.append(listText);
 
     
@@ -111,7 +147,7 @@ const createList = (users, text) => {
         console.log(element, element.slot, element.name);
         //const nameCard = createNameCard(element.name);
         
-        if (element.slot === text) {
+        if (element.slot === slot) {
             const nameCard = createNameCard(element);
             list.append(nameCard);
         }
