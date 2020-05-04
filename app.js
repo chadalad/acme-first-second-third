@@ -30,8 +30,13 @@ const createHeader = () => {
     return headerContainer;
 }
 
-const createButtons = () => {
+// original
+const createButtons = (user, slot) => {
+    // if slot matches first slot, disable shift left
+    // if slot matches last slot, disable shift right
+
     const createClickHandler = '';
+    //check to see if this is for the first, second, third, deactivate if at end
 
     const buttonContainer = createNode('div');
 
@@ -51,16 +56,69 @@ const createButtons = () => {
     return buttonContainer;
 }
 
-const createList = (text) => {
+
+//original
+/*
+const createNameCard = (name) => {
+    const nameCardContainer = createNode('div');
+    nameCardContainer.classList.add('tile');
+    
+    nameCardContainer.innerText = name;
+
+
+    return nameCardContainer;
+}
+*/
+
+//refactored
+const createNameCard = (user) => {
+    const createClickHandler = (user) => {
+        return (ev) => {
+            ev.stopPropagation();
+            user.selected = !user.selected;
+            
+            render();
+        }
+    }
+
+    const nameCard = createNode('div');
+    nameCard.classList.add('tile');
+    nameCard.innerText = user.name;
+    nameCard.addEventListener('click',createClickHandler(user));
+    
+    if(user.selected) {
+        nameCard.classList.add('active');
+    } else {
+        nameCard.classList.remove('active');
+    }
+
+    return nameCard;
+}
+
+const createList = (users, text) => {
     const list = createNode('div');
     list.classList.add('list');
 
-    const leftButton = createButtons();
-    list.append(leftButton);
+    const buttons = createButtons();
+    list.append(buttons);
 
     const listText = createNode('h2');
     listText.innerText = text.toUpperCase();
     list.append(listText);
+
+    
+    users.forEach(element => {
+        console.log(element, element.slot, element.name);
+        //const nameCard = createNameCard(element.name);
+        
+        if (element.slot === text) {
+            const nameCard = createNameCard(element);
+            list.append(nameCard);
+        }
+        
+    });
+    
+
     return list;
 }
 
@@ -74,7 +132,7 @@ const createListContainer = () => {
     listContainer.setAttribute('id', 'lists');
 
    for (let i = 0; i < slots.length; i ++) {
-       const listToAdd = createList(slots[i]);
+       const listToAdd = createList(users, slots[i]);
        listContainer.append(listToAdd);
    }
 
@@ -82,10 +140,7 @@ const createListContainer = () => {
 }
 
 
-const createNameCard = () => {
-    const nameCardContainer = createNode('div');
 
-}
 
 // create buttons, create name cards
 
