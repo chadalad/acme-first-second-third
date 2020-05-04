@@ -28,10 +28,11 @@ h2 {
 }
 
 .tile {
-    height: 50px;
     flex-grow: 1;
     padding: 1rem;
     margin-bottom: 0;
+    align-content: center;
+    align-items: center;
 }
 
 .arrow {

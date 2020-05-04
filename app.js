@@ -9,11 +9,6 @@ const users = [
     {id: 4, name: 'lucy', slot: 'third', selected: true},
 ];
 
-// next steps:
-// pass in the state to the different functions,
-// disable funcitons
-// do funcitonality
-
 // create app
 const app = document.querySelector('#app');
 console.log(app);
@@ -56,7 +51,7 @@ const createButtons = (users, slot) => {
     }
 
     // determine which users have the slot, deal with accordingly:
-    // use findIndex(slot) to determine the current slot, set slot to -- or ++
+    // use indexOf(slot) to determine the current slot, set slot to -- or ++
     const createClickHandler = (users, slot, direction) => {
         return (ev) => {
             ev.stopPropagation();
@@ -77,7 +72,6 @@ const createButtons = (users, slot) => {
                             user.slot = slots[idx];
                             render();
                         }
-
                     }
                 }
             })
@@ -91,20 +85,6 @@ const createButtons = (users, slot) => {
 
     return buttonContainer;
 }
-
-
-//original
-/*
-const createNameCard = (name) => {
-    const nameCardContainer = createNode('div');
-    nameCardContainer.classList.add('tile');
-    
-    nameCardContainer.innerText = name;
-
-
-    return nameCardContainer;
-}
-*/
 
 //refactored
 const createNameCard = (user) => {
@@ -144,8 +124,7 @@ const createList = (users, slot) => {
 
     
     users.forEach(element => {
-        console.log(element, element.slot, element.name);
-        //const nameCard = createNameCard(element.name);
+        //console.log(element, element.slot, element.name);
         
         if (element.slot === slot) {
             const nameCard = createNameCard(element);
@@ -157,10 +136,6 @@ const createList = (users, slot) => {
 
     return list;
 }
-
-
-
-
 
 //where the magic happens
 const createListContainer = () => {
@@ -175,65 +150,10 @@ const createListContainer = () => {
     return listContainer;
 }
 
-
-
-
-// create buttons, create name cards
-
-// add elements to the app
-//app.append(createHeader())
-
-//app.append(createListContainer());
-
 const render = () => {
     app.innerHTML = '';
     app.append(createHeader())
     app.append(createListContainer());
-
-    /*
-    const listContainer = createListContainer();
-    slots.forEach((text) => {
-        const list = createList(text);
-        listContainer.append(list);
-    })
-    return listContainer;
-    */
-
-
-
 }
 
 render();
-
-/*
-const createLists = () => {
-    const listContainer = createNode('div');
-    listContainer.setAttribute('id', 'lists');
-
-    const firstList = createNode('div');
-    firstList.classList.add('list')
-    const firstListText = createNode('h2');
-    firstListText.innerText = 'FIRST';
-    firstList.append(firstListText);
-
-    const secondList = createNode('div');
-    secondList.classList.add('list');
-    const secondListText = createNode('h2');
-    secondListText.innerText = 'SECOND';
-    secondList.append(secondListText);
-
-    const third = createNode('div');
-    third.classList.add('list');
-    const thirdText = createNode('h2');
-    thirdText.innerText = 'THIRD';
-    third.append(thirdText);
-
-    listContainer.append(firstList);
-    listContainer.append(secondList);
-    listContainer.append(third);
-    return listContainer;
-
-}
-
-//app.append(createLists())
-*/
