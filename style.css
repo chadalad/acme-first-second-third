@@ -1,0 +1,58 @@
+body {
+    font-family: sans-serif;
+    color: black;
+}
+
+#app {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#lists {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.list {
+    border: solid 2px tomato;
+    padding: 1rem;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    width: 200px;
+    margin: 2rem;
+}
+
+h2 {
+    margin-bottom: 2rem;
+}
+
+.tile {
+    height: 50px;
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+.arrow {
+    background-color: tomato;
+    border: solid 1px lightgray;
+    align-content: center;
+    text-align: center;
+}
+
+.button {
+    height: 50px;
+    width: 100%;
+    flex-grow: 2;
+    border: solid 1px lightgray;
+    align-content: center;
+    text-align: center;
+}
+
+.active {
+    background-color: tomato;
+}
+
+.deactivated {
+    background-color: lightgray;
+}
